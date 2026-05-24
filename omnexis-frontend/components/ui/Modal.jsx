@@ -1,0 +1,45 @@
+'use client'
+
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiX } from 'react-icons/fi'
+
+export default function Modal({ isOpen, onClose, title, children }) {
+  if (!isOpen) return null
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+        {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
+        />
+        
+        {/* Modal Content */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden"
+        >
+          <div className="flex justify-between items-center px-8 py-6 border-b border-gray-100">
+            <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+            <button 
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition"
+            >
+              <FiX size={24} />
+            </button>
+          </div>
+          
+          <div className="px-8 py-8 max-h-[70vh] overflow-y-auto">
+            {children}
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  )
+}
