@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useAuth } from '../../../hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
@@ -8,7 +8,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 export default function DashboardOverview() {
-  const { data: session } = useSession()
+  const { user } = useAuth()
   const [stats, setStats] = useState({ leads: 0, campaigns: 0, conversion: 0 })
   const [chartData, setChartData] = useState({ labels: [], datasets: [] })
 
@@ -27,7 +27,7 @@ export default function DashboardOverview() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Welcome back, {session?.user?.name || 'Admin'}!</h1>
+      <h1 className="text-2xl font-bold mb-6">Welcome back, {user?.name || 'Admin'}!</h1>
       
       <div className="grid md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow p-6">
